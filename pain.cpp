@@ -8,7 +8,7 @@
 
 int main()
 {
-    std::cout << "1 - pentagon \n 2 - hexagon \n 3 - octagon \n 4 - exit";
+    std::cout << "1 - pentagon \n 2 - hexagon \n 3 - octagon \n 4 - exit \n";
     int i;
     point <double> a1, a2, a3, a4, a5, a6, a7, a8;
     while(true) {
