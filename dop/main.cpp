@@ -1,28 +1,16 @@
- #include <iostream>
- #include <tuple>
+#include <tuple>
+#include <iostream>
+#include <string>
 
-template <size_t ID, class T>
-int check(const T& p)
-{
-    size_t n = std::tuple_size_v<T>;
-    auto sum = std::get<0>(p);
-    if constexpr (ID < std::tuple_size_v<T>) {
-        if (sum += std::get<ID>(p)) {
-            check<ID + 1>(p);
-        }
-        else {
-            return 0;
-        }
-    }
-    return 2;
-}
+template <typename Tuple, typename = void>
+struct check_impl : public std::false_type {};
 
-int main()
-{
-    int a, b ,c;
-    std::cin >> a >> b >> c;
-    std::tuple<int, int, int> p{a, b , c};
-    if (check<0>(p) == 0) {
-        std::cout << "no";
-    }
+template <typename... Ts>
+struct check_impl<std::tuple<Ts...>, std::void_t<decltype((std::declval<Ts>() + ...))>> : public std::true_type {};
+
+template <typename Tuple>
+constexpr bool check = check_impl<Tuple>::value;
+
+int main() {
+    std::cout << check<std::tuple<int, double, char>> << " " << check<std::tuple<int, std::string>>;
 }
